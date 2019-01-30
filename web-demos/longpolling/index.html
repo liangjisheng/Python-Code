@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box1{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        .box2{
+            width: 100px;
+            height: 100px;
+            background-color: green;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="app">
+        <ul v-for="item in vote_list">
+            <li>{[ item.name ]}({[ item.count ]})</li>
+        </ul>
+    </div>
+
+
+
+    <script src="/static/jquery-3.3.1.min.js"></script>
+    <script src="/static/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            delimiters:['{[', ']}'],
+            data: {
+                vote_list:[],
+                cl:null
+            },
+            created() {
+                var that = this;
+                this.cl = setInterval(function () {
+                    $.ajax({
+                        url: '/get_vote',
+                        type: 'get',
+                        success: function (arg) {
+                            console.log(arg)
+                            that.vote_list = arg
+                        }
+                    })
+                }, 2000)
+            }
+
+        });
+
+
+    </script>
+</body>
